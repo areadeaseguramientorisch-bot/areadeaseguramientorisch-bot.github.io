@@ -461,7 +461,7 @@ function renderEessCellForIndicator(code, r, eessName) {
     if (ind.has_detail) {
       const cnt = getDetailCount(code, codigo);
       btn = cnt > 0
-        ? '<button class="detail-btn" style="margin-top:3px;padding:2px 8px;font-size:10px" onclick="event.stopPropagation();showDetail(\'' + code + '\',\'' + codigo + '\',' + JSON.stringify(eessName||'') + ')">Ver ' + cnt + '</button>'
+        ? '<button class="detail-btn" style="margin-top:3px;padding:2px 8px;font-size:10px" data-detail-code="' + code + '" data-detail-codigo="' + codigo + '" data-detail-name="' + String(eessName||'').replace(/"/g,'&quot;') + '">Ver ' + cnt + '</button>'
         : '';
     }
     return '<td class="center"><div style="font-size:11px;color:#64748b">' + n + '/' + d + '</div><div style="font-weight:600;color:' + colorForPct(av) + '">' + fmtPct(av) + '</div>' + btn + '</td>';
@@ -597,7 +597,7 @@ function renderAggregatedByMicrored(code, container) {
     thead = '<tr><th>Microred</th><th class="center">EESS</th><th class="center">Numerador</th><th class="center">Denominador</th><th class="center">Avance</th><th class="center">EESS que cumplen</th></tr>';
     trs = microredes.map(mr => {
       const a = aggregateMicrored(code, mr);
-      return '<tr class="clickable" onclick="state.filterMicrored=' + JSON.stringify(mr) + ';renderIndicator()">'
+      return '<tr class="clickable" data-mr="' + String(mr).replace(/"/g,'&quot;') + '">'
         + '<td><strong>' + mr + '</strong></td>'
         + '<td class="center">' + a.total + '</td>'
         + '<td class="center">' + fmtNum(a.num) + '</td>'
@@ -611,7 +611,7 @@ function renderAggregatedByMicrored(code, container) {
     thead = '<tr><th>Microred</th><th class="center">EESS</th><th class="center">Numerador</th><th class="center">Denominador</th><th class="center">% Avance</th></tr>';
     trs = microredes.map(mr => {
       const a = aggregateMicrored(code, mr);
-      return '<tr class="clickable" onclick="state.filterMicrored=' + JSON.stringify(mr) + ';renderIndicator()">'
+      return '<tr class="clickable" data-mr="' + String(mr).replace(/"/g,'&quot;') + '">'
         + '<td><strong>' + mr + '</strong></td><td class="center">' + a.total + '</td>'
         + '<td class="center">' + fmtNum(a.num) + '</td><td class="center">' + fmtNum(a.den) + '</td>'
         + '<td class="center" style="font-weight:600;color:' + colorForPct(a.avance) + '">' + fmtPct(a.avance) + '</td></tr>';
@@ -621,7 +621,7 @@ function renderAggregatedByMicrored(code, container) {
     thead = '<tr><th>Microred</th><th class="center">EESS</th><th class="center">Total Mamografías</th><th class="center">EESS que cumplen meta</th></tr>';
     trs = microredes.map(mr => {
       const a = aggregateMicrored(code, mr);
-      return '<tr class="clickable" onclick="state.filterMicrored=' + JSON.stringify(mr) + ';renderIndicator()">'
+      return '<tr class="clickable" data-mr="' + String(mr).replace(/"/g,'&quot;') + '">'
         + '<td><strong>' + mr + '</strong></td><td class="center">' + a.eess + '</td>'
         + '<td class="center" style="font-weight:600">' + fmtNum(a.total) + '</td>'
         + '<td class="center">' + a.cumplen + '/' + a.eess + '</td></tr>';
@@ -631,7 +631,7 @@ function renderAggregatedByMicrored(code, container) {
     thead = '<tr><th>Microred</th><th class="center">EESS</th><th class="center">Síncronas</th><th class="center">Asíncronas</th><th class="center">Total</th></tr>';
     trs = microredes.map(mr => {
       const a = aggregateMicrored(code, mr);
-      return '<tr class="clickable" onclick="state.filterMicrored=' + JSON.stringify(mr) + ';renderIndicator()">'
+      return '<tr class="clickable" data-mr="' + String(mr).replace(/"/g,'&quot;') + '">'
         + '<td><strong>' + mr + '</strong></td><td class="center">' + a.eess + '</td>'
         + '<td class="center">' + fmtNum(a.sinc) + '</td>'
         + '<td class="center">' + fmtNum(a.asinc) + '</td>'
@@ -642,7 +642,7 @@ function renderAggregatedByMicrored(code, container) {
     thead = '<tr><th>Microred</th><th class="center">EESS</th><th class="center">Total Visitas</th></tr>';
     trs = microredes.map(mr => {
       const a = aggregateMicrored(code, mr);
-      return '<tr class="clickable" onclick="state.filterMicrored=' + JSON.stringify(mr) + ';renderIndicator()">'
+      return '<tr class="clickable" data-mr="' + String(mr).replace(/"/g,'&quot;') + '">'
         + '<td><strong>' + mr + '</strong></td><td class="center">' + a.eess + '</td>'
         + '<td class="center" style="font-weight:600;color:' + (a.total>0?'#16a34a':'#94a3b8') + '">' + fmtNum(a.total) + '</td></tr>';
     }).join('');
@@ -651,7 +651,7 @@ function renderAggregatedByMicrored(code, container) {
     thead = '<tr><th>Microred</th><th class="center">EESS</th><th class="center">Próstata</th><th class="center">Cérvico</th><th class="center">Mama</th><th class="center">Intestino</th><th class="center">Total</th></tr>';
     trs = microredes.map(mr => {
       const a = aggregateMicrored(code, mr);
-      return '<tr class="clickable" onclick="state.filterMicrored=' + JSON.stringify(mr) + ';renderIndicator()">'
+      return '<tr class="clickable" data-mr="' + String(mr).replace(/"/g,'&quot;') + '">'
         + '<td><strong>' + mr + '</strong></td><td class="center">' + a.eess + '</td>'
         + '<td class="center">' + a.prost + '</td><td class="center">' + a.cerv + '</td>'
         + '<td class="center">' + a.mama + '</td><td class="center">' + a.int + '</td>'
@@ -686,7 +686,7 @@ function renderEessTable(code, container) {
       if (ind.has_detail) {
         const cnt = getDetailCount(code, r['CODIGO IPRESS']);
         btn = '<td class="center">' + (cnt > 0
-          ? '<button class="detail-btn" onclick="showDetail(\'' + code + '\',\'' + r['CODIGO IPRESS'] + '\',' + JSON.stringify(r.ESTABLECIMIENTO||'') + ')">Ver ' + cnt + '</button>'
+          ? '<button class="detail-btn" data-detail-code="' + code + '" data-detail-codigo="' + r['CODIGO IPRESS'] + '" data-detail-name="' + String(r.ESTABLECIMIENTO||'').replace(/"/g,'&quot;') + '">Ver ' + cnt + '</button>'
           : '<span style="color:#cbd5e1">—</span>') + '</td>';
       }
       return '<tr><td>' + (r.MICRORED||'—') + '</td><td><strong>' + r.ESTABLECIMIENTO + '</strong><div style="font-size:10px;color:#94a3b8">Cód: ' + r['CODIGO IPRESS'] + '</div></td>'
@@ -890,6 +890,22 @@ function render() {
   else if (state.view === 'indicator') renderIndicator();
   window.scrollTo({top:0, behavior:'smooth'});
 }
+// Event delegation para botones Ver del detallado
+document.body.addEventListener('click', function(e) {
+  const btn = e.target.closest('.detail-btn[data-detail-code]');
+  if (btn) {
+    e.preventDefault();
+    e.stopPropagation();
+    showDetail(btn.dataset.detailCode, btn.dataset.detailCodigo, btn.dataset.detailName);
+    return;
+  }
+  const tr = e.target.closest('tr.clickable[data-mr]');
+  if (tr) {
+    state.filterMicrored = tr.dataset.mr;
+    renderIndicator();
+  }
+});
+
 render();
 </script>
 </body>
